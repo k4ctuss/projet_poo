@@ -14,9 +14,9 @@ public class TestBalls {
         Balls balls = new Balls(seed);
         System.out.println("Etat initial : \n "+balls.toString());
 
-        int dx = 10, dy = -5;
+        int dx = 10, dy = 10;
         System.out.println("---- Transaltion de "+dx+" en x et "+dy+" en y. -----");
-        balls.translate(dx, dy);
+        balls.step(1000, 1000, 0);
         System.out.println("Etat après translation : \n "+balls.toString());
         System.out.println("---- Réinit -----");
         balls.reInit();

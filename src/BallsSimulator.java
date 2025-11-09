@@ -9,13 +9,22 @@ public class BallsSimulator implements Simulable {
 
     private final Balls balles;
     private final GUISimulator gui;
+
+    private final int ballRadius;
+
     public BallsSimulator(GUISimulator gui, List<Point> seed){
+        this(gui, seed, 10);
+    }
+
+    public BallsSimulator(GUISimulator gui, List<Point> seed, int ballRadius){
         this.gui = gui;
         this.balles = new Balls(seed);
+        this.ballRadius = ballRadius;
+        draw();
     }
     @Override
     public void next(){
-        this.balles.translate(10, 10);
+        this.balles.step(gui.getWidth(), gui.getHeight(), ballRadius);
         draw();
     }
 
@@ -28,8 +37,8 @@ public class BallsSimulator implements Simulable {
     private void draw(){
         gui.reset();
 
-        for (Point p : balles.getCurrents()){
-            gui.addGraphicalElement(new Oval(p.x, p.y, Color.WHITE, Color.WHITE, 10, 10));
+        for (int[] coord : balles.getListCoordinate()){
+            gui.addGraphicalElement(new Oval(coord[0], coord[1], Color.WHITE, Color.WHITE, 10, 10));
         }
     }
 }
