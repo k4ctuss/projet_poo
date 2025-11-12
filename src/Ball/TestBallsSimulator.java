@@ -1,3 +1,5 @@
+package Ball;
+
 import gui.GUISimulator;
 
 import java.awt.*;
