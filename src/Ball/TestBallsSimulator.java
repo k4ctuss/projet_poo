@@ -16,6 +16,5 @@ public class TestBallsSimulator {
         seed.add(new Point(250, 400));
         seed.add(new Point(10, 300));
         BallsSimulator bSimulator = new BallsSimulator(window, seed);
-        window.setSimulable(bSimulator);
     }
 }

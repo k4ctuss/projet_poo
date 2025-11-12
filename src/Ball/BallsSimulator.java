@@ -22,6 +22,7 @@ public class BallsSimulator implements Simulable {
         this.gui = gui;
         this.balles = new Balls(seed);
         this.ballRadius = ballRadius;
+        this.gui.setSimulable(this);
         draw();
     }
     @Override
