@@ -4,12 +4,11 @@ import java.util.*;
 
 public class ConwayGrid {
 
-    private int nbCellWidth;
-    private int nbCellHeight;
-    private Set<Cell> origine;
-    private Set<Cell> nextAlive;
-    private Set<Cell> currAlive;
-    private Set<Cell> precAlive;
+    private final int nbCellWidth;
+    private final int nbCellHeight;
+    private final Set<Cell> origin;
+    private final Set<Cell> nextAlive;
+    private final Set<Cell> currAlive;
 
     public ConwayGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCells){
         if (nbCellWidth <= 0 || nbCellHeight <= 0) {
@@ -17,29 +16,12 @@ public class ConwayGrid {
         }
         this.nbCellWidth = nbCellWidth;
         this.nbCellHeight = nbCellHeight;
-        this.origine = initialCells;
+        this.origin = initialCells;
         this.currAlive = new HashSet<>();
         currAlive.addAll(initialCells); // initialisation
         this.nextAlive = new HashSet<>();
-        this.precAlive = new HashSet<>();
     }
 
-    /*
-    getCellToRemove & getCellToAdd sont inutilisables au final car la liste chainé de shapes
-    n'est pas pratique pour retirer les formes des cellules morts.
-    on va donc just reste la grille et reimprimer toutes les cellules vivantes.
-     */
-    public Set<Cell> getCellToRemove(){
-        Set<Cell> cellsToRemove = new HashSet<>(precAlive);
-        cellsToRemove.removeAll(currAlive);
-        return cellsToRemove;
-    }
-
-    public Set<Cell> getCellToAdd(){
-        Set<Cell> cellsToAdd = new HashSet<>(currAlive);
-        cellsToAdd.removeAll(precAlive);
-        return cellsToAdd;
-    }
 
     public Set<Cell> getCurrAlive() {
         return currAlive;
@@ -116,7 +98,7 @@ public class ConwayGrid {
 
     public void restart(){
         clear();
-        this.currAlive.addAll(this.origine);
+        this.currAlive.addAll(this.origin);
     }
 
 
