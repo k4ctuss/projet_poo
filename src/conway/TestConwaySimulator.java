@@ -8,6 +8,12 @@ import java.util.Set;
 
 public class TestConwaySimulator {
 
+    /**
+     * Construire un glider à partir d'une position de départ (x0, y0)
+     * @param x0 coordonnée x de la position de départ
+     * @param y0 coordonnée y de la position de départ
+     * @return un ensemble de cellules représentant un glider
+     */
     static Set<Cell> buildGlider(int x0, int y0){
         Set<Cell> glider = new HashSet<>();
         glider.add(new Cell(x0+1, y0));

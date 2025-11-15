@@ -2,6 +2,12 @@ package conway;
 
 import java.util.*;
 
+/**
+ * Classe représentant la grille du jeu de la vie de Conway
+ * Elle contient les cellules vivantes actuelles et permet de calculer l'état suivant de la grille
+ * Elle gère également le wrapping des cellules aux bords de la grille
+ * Elle permet de redémarrer la grille à son état initial
+ */
 public class ConwayGrid {
 
     private final int nbCellWidth;
@@ -10,6 +16,14 @@ public class ConwayGrid {
     private final Set<Cell> nextAlive;
     private final Set<Cell> currAlive;
 
+    /** 
+     * Constructeur de la grille de Conway
+     * @param nbCellWidth nombre de cellules en largeur de la grille
+     * @param nbCellHeight nombre de cellules en hauteur de la grille
+     * @param initialCells ensemble des cellules initialement vivantes
+     * @throws IllegalArgumentException si la largeur ou la hauteur est inférieure ou égale à 0
+     * 
+    */
     public ConwayGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCells){
         if (nbCellWidth <= 0 || nbCellHeight <= 0) {
             throw new IllegalArgumentException("Width and height must be positive");
@@ -41,6 +55,11 @@ public class ConwayGrid {
         return r<0? r+nbCellHeight: r;
     }
 
+		/**
+		 * Renvoie les cellules voisines d'une cellule donnée en tenant compte du wrapping
+		 * @param c la cellule dont on veut les voisins
+		 * @return un tableau des cellules voisines
+		 */
     private Cell[] getNeighbor(Cell c){
 
         return new Cell[]{
@@ -55,6 +74,12 @@ public class ConwayGrid {
         };
     }
 
+    /**
+     * Passe à l'étape suivante de la simulation en appliquant les règles du jeu de la vie de Conway
+     * Les cellules vivantes avec 2 ou 3 voisins vivants restent en vie
+     * Les cellules mortes avec exactement 3 voisins vivants deviennent vivantes
+     * 
+     */
     public void nextStep(){
         Set<Cell> candidate = new HashSet<>();
         // pour chaque cellule on regard si elle sera encore en vie a t+1 et on met ses voisins morts en candidats

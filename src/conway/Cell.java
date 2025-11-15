@@ -1,8 +1,13 @@
 package conway;
 
 import java.util.Objects;
-import java.util.Set;
 
+/**
+ * Représente une cellule vivante dans le jeu de la vie de Conway
+ * une cellule possede des coordonnées x et y
+ * Deux cellules sont égales si elles ont les mêmes coordonnées
+ * Le hashcode est basé sur les coordonnées
+ */
 public class Cell {
 
     private final int x; // immuable pour ne pas changer les clés des hashset
