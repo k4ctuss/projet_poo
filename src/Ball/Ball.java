@@ -1,3 +1,5 @@
+package Ball;
+
 import java.awt.*;
 
 public class Ball {

@@ -1,3 +1,5 @@
+package Ball;
+
 import java.util.*;
 import java.awt.Point;
 import java.util.stream.Collectors;

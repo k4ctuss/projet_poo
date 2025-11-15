@@ -1,3 +1,5 @@
+package Ball;
+
 import gui.GUISimulator;
 import gui.Oval;
 import gui.Simulable;
@@ -20,6 +22,7 @@ public class BallsSimulator implements Simulable {
         this.gui = gui;
         this.balles = new Balls(seed);
         this.ballRadius = ballRadius;
+        this.gui.setSimulable(this);
         draw();
     }
     @Override
