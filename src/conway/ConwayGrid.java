@@ -35,15 +35,15 @@ public class ConwayGrid extends Grid {
         Set<Cell> candidate = new HashSet<>();
         // pour chaque cellule on regard si elle sera encore en vie a t+1 et on met ses voisins morts en candidats
         for(Cell c : currAlive){
-            int nbNeighborAlive = 3; // on set à 3 et compare à 0 ou 1 pour gagner des cycles
+            int nbNeighborAlive = 0; 
             for (Cell neighbor : getNeighbor(c)){
                 if(isAlive(neighbor)){
-                    nbNeighborAlive--;
+                    nbNeighborAlive++;
                 }else{
                     candidate.add(neighbor);
                 }
             }
-            if (nbNeighborAlive == 0 || nbNeighborAlive == 1){
+            if (nbNeighborAlive == 2 || nbNeighborAlive == 3){
                 nextAlive.add(c);
             }
         }
