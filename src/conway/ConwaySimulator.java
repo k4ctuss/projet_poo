@@ -21,7 +21,6 @@ public class ConwaySimulator extends AutomateSimulator {
      * @param nbCellWidth nombre de cellules en largeur de la futur grille
      * @param nbCellHeight nombre de cellules en hauteur de la futur grille
      * @param initialCells ensemble des cellules initialement vivantes
-     * @throws IllegalArgumentException si la taille des cellules est inférieure ou égale à 0
      */
     public ConwaySimulator(int cellSize, GUISimulator gui, int nbCellWidth, int nbCellHeight, Set<Cell> initialCells){
 

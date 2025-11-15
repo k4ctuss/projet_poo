@@ -1,7 +1,7 @@
 package core;
 
 import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe représentant une grille du jeu d'automate cellulaire
@@ -12,7 +12,7 @@ import java.util.Set;
 public abstract class Grid {
     private final int nbCellWidth;
     private final int nbCellHeight;
-    private final Set<Cell> origin;
+    protected final Set<Cell> origin;
     protected final Set<Cell> nextAlive;
     protected final Set<Cell> currAlive;
 
@@ -30,15 +30,18 @@ public abstract class Grid {
         }
         this.nbCellWidth = nbCellWidth;
         this.nbCellHeight = nbCellHeight;
-        this.origin = initialCells;
+        this.origin = new HashSet<>(initialCells);
         this.currAlive = new HashSet<>();
         currAlive.addAll(initialCells); // initialisation
         this.nextAlive = new HashSet<>();
     }
 
-
+    /**
+     * Accesseur des cellules actuellement vivantes
+     * @return un ensemble non modifiable des cellules actuellement vivantes
+     */
     public Set<Cell> getCurrAlive() {
-        return currAlive;
+        return Collections.unmodifiableSet(currAlive);
     }
 
     protected boolean isAlive(Cell c){
@@ -79,7 +82,7 @@ public abstract class Grid {
      */
     public abstract void nextStep();
 
-    private void clear(){
+    protected void clear(){
         this.nextAlive.clear();
         this.currAlive.clear();
     }
