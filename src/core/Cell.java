@@ -1,5 +1,6 @@
-package conway;
+package core;
 
+import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -13,11 +14,14 @@ public class Cell {
     private final int x; // immuable pour ne pas changer les clés des hashset
     private final int y;
 
+    private Color color;
+
     // prevoir un set pour les cellules voisine mortes
 
     public Cell(int x, int y){
         this.x = x;
         this.y = y;
+        this.color = Color.WHITE;
     }
 
     public int getX() {
@@ -26,6 +30,10 @@ public class Cell {
 
     public int getY() {
         return y;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     @Override

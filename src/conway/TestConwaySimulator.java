@@ -1,5 +1,7 @@
 package conway;
 
+import core.AutomateSimulator;
+import core.Cell;
 import gui.GUISimulator;
 
 import java.awt.*;
@@ -41,7 +43,7 @@ public class TestConwaySimulator {
         initCells.addAll(buildGlider(40, 10));
 
 
-        ConwaySimulator simu = new ConwaySimulator(10, window, 50, 50, initCells);
+        AutomateSimulator simu = new ConwaySimulator(10, window, 50, 50, initCells);
 
     }
 }
