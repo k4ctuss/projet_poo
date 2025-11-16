@@ -1,7 +1,5 @@
 package core;
 
-import utils.ColorUtil;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Set;
@@ -33,6 +31,24 @@ public abstract class MultiStateGrid extends Grid{
 
     private void clearState(){
         this.currStateCell.clear();
+        this.nextStateCell.clear();
+    }
+
+    /**
+     * Applique l'état suivant à la grille
+     * Met à jour les cellules vivantes et leurs états
+     */
+    protected void applyNextState(){
+        // cleanUp the current state
+        this.currAlive.clear();
+        this.currStateCell.clear();
+
+        //assign state
+        this.currAlive.addAll(nextAlive);
+        this.currStateCell.putAll(nextStateCell);
+
+        //cleanup
+        this.nextAlive.clear();
         this.nextStateCell.clear();
     }
 

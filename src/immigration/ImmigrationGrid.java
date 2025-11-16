@@ -1,7 +1,6 @@
 package immigration;
 
 import core.Cell;
-import core.Grid;
 import core.MultiStateGrid;
 import utils.ColorUtil;
 
@@ -90,17 +89,7 @@ public class ImmigrationGrid extends MultiStateGrid {
             }
         }
 
-        // cleanUp the current state
-        this.currAlive.clear();
-        this.currStateCell.clear();
-
-        //assign state
-        this.currAlive.addAll(nextAlive);
-        this.currStateCell.putAll(nextStateCell);
-
-        //cleanup
-        this.nextAlive.clear();
-        this.nextStateCell.clear();
+        applyNextState();
     }
 
 
