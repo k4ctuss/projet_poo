@@ -33,7 +33,7 @@ public abstract class AutomateSimulator implements Simulable{
         this.gui.setSimulable(this);
         this.grid = grid;
 
-        draw();
+        restart();
     }
 
 

@@ -2,6 +2,7 @@ package immigration;
 
 import core.Cell;
 import core.Grid;
+import core.MultiStateGrid;
 import utils.ColorUtil;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.util.*;
 
 /**
  * Classe représentant la grille du jeu de l'immigration
- * Elle herite de la classe Grid et ajoute la gestion des états des cellules
+ * Elle herite de la classe MultiStateGrid
  * Chaque cellule peut être dans un état de 0 à numberStates-1, chaque état
  * est représenté par une couleur différente
  * Les règles de transition d'état sont les suivantes :
@@ -18,13 +19,7 @@ import java.util.*;
  * La grille gère également le wrapping des cellules aux bords de la grille
  * Elle permet de redémarrer la grille à son état initial
  */
-public class ImmigrationGrid extends Grid {
-
-    private final Color[] palette;
-    private final int numberStates;
-    private final HashMap<Cell, Integer> originStateCell;
-    private final HashMap<Cell, Integer> currStateCell;
-    private final HashMap<Cell, Integer> nextStateCell;
+public class ImmigrationGrid extends MultiStateGrid {
 
     /**
      * Constructeur de la grille de l'immigration, appel le constucteur parent
@@ -35,17 +30,15 @@ public class ImmigrationGrid extends Grid {
 		 * @param initialStateForCell map des cellules initiales avec leur état associé
      */
     public ImmigrationGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCell, int numberStates, HashMap<Cell, Integer> initialStateForCell){
-        super(nbCellWidth, nbCellHeight, initialCell);
-        this.numberStates = numberStates;
-        palette = ColorUtil.whiteToBlack(numberStates);
-        this.originStateCell = new HashMap<>(initialStateForCell);
-        this.currStateCell = new HashMap<>();
-        this.nextStateCell = new HashMap<>();
-        restart();
+        super(nbCellWidth, nbCellHeight, initialCell, numberStates, initialStateForCell);
     }
 
+    @Override
+    protected Color[] createPalette(int numberStates) {
+        return ColorUtil.whiteToBlack(numberStates);
+    }
 
-		/**
+    /**
 		 * Passe à l'état suivant dans le jeu
 		 * Pour chaque cellule vivante, on compte le nombre de voisins dans l'état suivant
 		 * Si ce nombre est supérieur ou égal à 3, la cellule passe à l'état suivant
@@ -110,23 +103,5 @@ public class ImmigrationGrid extends Grid {
         this.nextStateCell.clear();
     }
 
-    private void clearState(){
-        currStateCell.clear();
-        nextStateCell.clear();
-    }
 
-		/**
-		 * Redémarre la grille à son état initial
-		 * Remet les cellules vivantes et leurs états initiaux
-		 */
-    @Override
-    public void restart(){
-        clear();
-        clearState();
-        this.currAlive.addAll(this.origin);
-        this.currStateCell.putAll(originStateCell);
-        for(Cell c : currAlive){
-            c.setColor(palette[currStateCell.get(c)]);
-        }
-    }
 }

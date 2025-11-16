@@ -23,8 +23,8 @@ public class ImmigrationSimulator extends AutomateSimulator {
          * @param nbCellWidth nombre de cellules en largeur de la futur grille
          * @param nbCellHeight nombre de cellules en hauteur de la futur grille
          * @param initialCells ensemble des cellules initialement vivantes
-				 * @param numberState nombre d'états possibles pour les cellules
-				 * @param initialStateForCell map des cellules initiales avec leur état associé
+		 * @param numberState nombre d'états possibles pour les cellules
+		 * @param initialStateForCell map des cellules initiales avec leur état associé
 		 */
     public ImmigrationSimulator(int cellSize, GUISimulator gui, int nbCellWidth, int nbCellHeight, Set<Cell> initialCells,
                                 int numberState, HashMap<Cell, Integer> initialStateForCell){
