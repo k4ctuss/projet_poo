@@ -33,36 +33,25 @@ public class SchellingGrid extends Grid {
         this.vacantHabitations = new HashSet<>(originVacantHabitations);
     }
 
-		/**
-		 * Change l'habitation d'une cellule en la déplaçant vers une habitation vacante aléatoire
-		 * met à jour l'état de la nouvelle cellule en conséquence
-		 * @param c la cellule à déplacer
-		 * @param currState l'état actuel de la cellule
-		 * @throws IllegalStateException si aucune habitation n'est disponible
-		 */
-    private void changeHabitation(Cell c, int currState){
+	/**
+	 * Trouve une nouvelle habitation vacante aléatoire pour une cellule qui déménage
+	 * @return la cellule vacante sélectionnée
+	 * @throws IllegalStateException si aucune habitation n'est disponible
+	 */
+    private Cell selectNewHabitation(){
         if(vacantHabitations.isEmpty()){
             throw new IllegalStateException("Erreur : aucune habitation n'est disponible.");
         }
         int item = new Random().nextInt(vacantHabitations.size());
         int i = 0;
-        Cell newHabitation = null;
         for(Cell vac : vacantHabitations){
             if(i == item){
-                newHabitation = vac;
-                break;
+                return vac;
             }
             i++;
         }
-        assert(newHabitation != null);
-        newHabitation.setState(currState);
-        nextAlive.add(newHabitation);
-        vacantHabitations.remove(newHabitation);
-        vacantHabitations.add(c);
-        c.setState(0); // morte
-    }
-
-		/**
+        return null; // Ne devrait jamais arriver ici
+    }		/**
 		 * Passe à l'état suivant dans le modèle de Schelling
 		 * Pour chaque cellule occupée, on compte le nombre de voisins d'un état différent
 		 * Si ce nombre est supérieur au seuil, la cellule déménage dans une habitation vacante aléatoire
@@ -70,9 +59,13 @@ public class SchellingGrid extends Grid {
 		 */
     @Override
     public void nextStep(){
-        updateSnapshot();  // Remplit snapshotState avec l'état courant
+        buildSnapshot();  // Crée le snapshot une fois au début
         
-        for(Cell c : currAlive){
+        // Listes des mouvements à effectuer après l'itération
+        Set<Cell> cellsToMove = new HashSet<>();
+        
+        for(Iterator<Cell> it = currAlive.iterator(); it.hasNext(); ){
+            Cell c = it.next();
             int nbNeighborDiff = 0;
             int currState = getStateSnapshot(c);
             for (Cell neighbor: getNeighbor(c)){
@@ -82,16 +75,22 @@ public class SchellingGrid extends Grid {
             }
 
             if(nbNeighborDiff > seuil){
-                changeHabitation(c, currState);
-            } else {
-                nextAlive.add(c);
+                cellsToMove.add(c);
+                it.remove(); // on enlève la cellule de currAlive de façon sûre
             }
         }
+        
+        // Traiter les mouvements après la boucle car sinon on a un ConcurrentModificationException si on add dans currAlive
+        for(Cell c : cellsToMove){
+            int currState = getStateSnapshot(c);
+            Cell newHabitation = selectNewHabitation();
+            newHabitation.setState(currState);
+            currAlive.add(newHabitation);
+            vacantHabitations.remove(newHabitation);
+            vacantHabitations.add(c);
+            c.setState(0); // morte
+        }
 
-        // Basculement des états
-        this.currAlive.clear();
-        this.currAlive.addAll(nextAlive);
-        this.nextAlive.clear();
     }
 
     @Override

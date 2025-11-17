@@ -32,19 +32,21 @@ public class ConwayGrid extends Grid {
      */
     @Override
     public void nextStep(){
+        buildSnapshot();
         Set<Cell> candidate = new HashSet<>();
         // pour chaque cellule on regard si elle sera encore en vie a t+1 et on met ses voisins morts en candidats
-        for(Cell c : currAlive){
+        for(Iterator<Cell> it = currAlive.iterator(); it.hasNext(); ){
+            Cell c = it.next();
             int nbNeighborAlive = 0; 
             for (Cell neighbor : getNeighbor(c)){
-                if(isAlive(neighbor)){
+                if(snapshotState.containsKey(neighbor)){
                     nbNeighborAlive++;
                 }else{
                     candidate.add(neighbor);
                 }
             }
-            if (nbNeighborAlive == 2 || nbNeighborAlive == 3){
-                nextAlive.add(c);
+            if (!(nbNeighborAlive == 2 || nbNeighborAlive == 3)){
+                it.remove();
             }
         }
 
@@ -52,19 +54,15 @@ public class ConwayGrid extends Grid {
         for(Cell c : candidate){
             int nbNeighborAlive = 3; // on set à 3 et compare à 0
             for (Cell neighbor : getNeighbor(c)){
-                if(isAlive(neighbor)){
+                if(snapshotState.containsKey(neighbor)){
                     nbNeighborAlive--;
                 }
             }
             if (nbNeighborAlive == 0){
-                nextAlive.add(c);
+                currAlive.add(c);
                 c.setState(1); // La cellule devient vivante.
             }
         }
-
-        this.currAlive.clear();
-        this.currAlive.addAll(nextAlive);
-        this.nextAlive.clear();
 
     }
 

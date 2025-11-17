@@ -39,10 +39,11 @@ public class ImmigrationGrid extends Grid {
 		 */
     @Override
     public void nextStep(){
-        updateSnapshot();  // Remplit snapshotState avec l'état courant
+        buildSnapshot();  // Crée le snapshot une fois au début
         
         Set<Cell> candidates = new HashSet<>();
-        for(Cell c : currAlive){
+        for(Iterator<Cell> it = currAlive.iterator(); it.hasNext(); ){
+            Cell c = it.next();
             int currState = getStateSnapshot(c);
             int nextState = (currState + 1) % numberStates;
             int nbNeighborNextState = 0;
@@ -51,7 +52,7 @@ public class ImmigrationGrid extends Grid {
                 if(getStateSnapshot(neighbor) == nextState){
                     nbNeighborNextState++;
                 }
-                if(!isAlive(neighbor)) {
+                if(!snapshotState.containsKey(neighbor)) {
                     candidates.add(neighbor);
                 }
             }
@@ -59,10 +60,9 @@ public class ImmigrationGrid extends Grid {
             if(nbNeighborNextState >= 3){
                 if(nextState != 0) {
                     c.setState(nextState);
-                    nextAlive.add(c);
+                }else{
+                    it.remove(); // La cellule meurt, on la retire de currAlive
                 }
-            } else {
-                nextAlive.add(c);
             }
         }
 
@@ -77,13 +77,9 @@ public class ImmigrationGrid extends Grid {
 
             if(nbNeighborState1 >= 3){
                 c.setState(targetState);
-                nextAlive.add(c);
+                currAlive.add(c);
             }
         }
-
-        this.currAlive.clear();
-        this.currAlive.addAll(nextAlive);
-        this.nextAlive.clear();
     }
 
 

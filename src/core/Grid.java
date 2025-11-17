@@ -14,9 +14,8 @@ public abstract class Grid {
     private final int nbCellHeight;
     protected final int numberStates;  // Nombre d'états possibles (2 (vivant ou mort) pour Conway, N pour Immigration/Schelling)
     protected final Set<Cell> origin;
-    protected final Set<Cell> nextAlive;
     protected final Set<Cell> currAlive;
-    protected final HashMap<Cell, Integer> snapshotState;  // Snapshot de l'état courant pour lire pendant nextStep()
+    protected HashMap<Cell, Integer> snapshotState;  // Snapshot de l'état courant pour lire pendant nextStep()
 
     /**
      * Constructeur de la grille d'automate cellulaire
@@ -37,10 +36,8 @@ public abstract class Grid {
         this.nbCellWidth = nbCellWidth;
         this.nbCellHeight = nbCellHeight;
         this.numberStates = numberStates;
-        this.origin = new HashSet<>(initialCells);
+        this.origin = Set.copyOf(initialCells);
         this.currAlive = new HashSet<>();
-        currAlive.addAll(initialCells); // initialisation
-        this.nextAlive = new HashSet<>();
         this.snapshotState = new HashMap<>();
     }
 
@@ -50,10 +47,6 @@ public abstract class Grid {
      */
     public Set<Cell> getCurrAlive() {
         return Collections.unmodifiableSet(currAlive);
-    }
-
-    protected boolean isAlive(Cell c){
-        return currAlive.contains(c);
     }
 
     private int wrapX(int x){
@@ -91,16 +84,16 @@ public abstract class Grid {
     public abstract void nextStep();
 
     protected void clear(){
-        this.nextAlive.clear();
         this.currAlive.clear();
+        this.snapshotState.clear();
     }
 
     public void restart(){
         clear();
-        this.currAlive.addAll(this.origin);
-        this.snapshotState.clear();
         for(Cell c : this.origin){
-            this.snapshotState.put(c, c.getState());
+            Cell clone = new Cell(c.getX(), c.getY(), c.getState());
+            this.currAlive.add(clone);
+            this.snapshotState.put(clone, clone.getState());
         }
     }
 
@@ -118,10 +111,11 @@ public abstract class Grid {
     }
 
     /**
-     * Remplit le snapshot au début de nextStep() pour lecture cohérente
+     * Crée un snapshot sûr des états courants pour nextStep
+     * À appeler UNE FOIS au début de nextStep, pas dans la boucle
      */
-    protected void updateSnapshot() {
-        snapshotState.clear();
+    protected void buildSnapshot() {
+        snapshotState = new HashMap<>();
         for(Cell c : currAlive) {
             snapshotState.put(c, c.getState());
         }

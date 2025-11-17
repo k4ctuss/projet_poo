@@ -21,13 +21,14 @@ import java.util.Set;
 public class TestSchellingSimulator {
     public static void main(String[] args) {
         // Parameters
-        final int width = 100;     // number of cells horizontally
-        final int height = 100;    // number of cells vertically
+        final int width = 80;     // number of cells horizontally
+        final int height = 80;    // number of cells vertically
         final int cellSize = 10;  // pixel size per cell
-        final int numberStates = 12; // number of family colors (>=2). 0 is reserved for vacant (not initialized)
+        final int numberStates = 10; // number of family colors (>=2). 0 is reserved for vacant (not initialized) numberState = # family+1
         final double vacancyRate = 0.15; // fraction of grid initially vacant (spec asks for enough vacancies)
-        final int thresholdK = 6; // families move if they have > K neighbors of a different color
-
+        final int thresholdK = 5; // families move if they have > K neighbors of a different color
+        // on a pas de ségragation entre 1 et 4 et a partir de 5 on commence a en avoir.
+        // Elle est de plus en plus rapide a mesure qu'on augmente
 
         GUISimulator window = new GUISimulator(width * cellSize, height * cellSize, Color.WHITE);
 
@@ -50,8 +51,8 @@ public class TestSchellingSimulator {
         // Fill occupants with balanced colors
         int[] perColorTargets = new int[numberStates]; // index 1..numberStates
         int remainingSlots = total - originVacantHabitation.size();
-        int perColor = remainingSlots / numberStates;
-        int remainder = remainingSlots % numberStates;
+        int perColor = remainingSlots / (numberStates-1);
+        int remainder = remainingSlots % (numberStates-1);
         for (int c = 1; c < numberStates; c++) {
             perColorTargets[c] = perColor + ((c <= remainder) ? 1 : 0);
         }
