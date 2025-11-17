@@ -5,7 +5,6 @@ import core.Cell;
 import gui.GUISimulator;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -15,26 +14,25 @@ import java.util.Set;
  * Modification facile du seuil K
  * Initialisation d'une configuration valide :
  *   * Grille 60x40, taille de cellule = 10
- *   * Couleurs (états) = 3 groupes (1..3), 0 signifie vacant et n'est pas initialisé
+ *   * Couleurs (états) = 10 groupes (1..10), 0 signifie vacant
  *   * Places vacantes ~15 % de la grille (requis par les spécifications pour permettre les déplacements)
  *   * Familles placées aléatoirement parmi les cellules non vacantes, réparties équitablement entre les couleurs
  */
 public class TestSchellingSimulator {
     public static void main(String[] args) {
         // Parameters
-        final int width = 60;     // number of cells horizontally
-        final int height = 40;    // number of cells vertically
+        final int width = 100;     // number of cells horizontally
+        final int height = 100;    // number of cells vertically
         final int cellSize = 10;  // pixel size per cell
-        final int numberStates = 10; // number of family colors (>=2). 0 is reserved for vacant (not initialized)
+        final int numberStates = 12; // number of family colors (>=2). 0 is reserved for vacant (not initialized)
         final double vacancyRate = 0.15; // fraction of grid initially vacant (spec asks for enough vacancies)
-        final int thresholdK = 5; // families move if they have > K neighbors of a different color
+        final int thresholdK = 6; // families move if they have > K neighbors of a different color
 
 
         GUISimulator window = new GUISimulator(width * cellSize, height * cellSize, Color.WHITE);
 
         // Initial configuration respecting the spec:
         Set<Cell> initialCells = new HashSet<>();
-        HashMap<Cell, Integer> initialStateForCell = new HashMap<>();
         Set<Cell> originVacantHabitation = new HashSet<>();
 
         // Build a random but well-formed configuration:
@@ -42,11 +40,11 @@ public class TestSchellingSimulator {
         int total = width * height;
         int targetVacant = (int) Math.round(total * vacancyRate);
 
-        // Mark vacancies
+        // Mark vacancies (état 0, donc pas créées avec état)
         while (originVacantHabitation.size() < targetVacant) {
             int x = rng.nextInt(width);
             int y = rng.nextInt(height);
-            originVacantHabitation.add(new Cell(x, y));
+            originVacantHabitation.add(new Cell(x, y));  // État par défaut = 0
         }
 
         // Fill occupants with balanced colors
@@ -68,9 +66,9 @@ public class TestSchellingSimulator {
                 }
                 // Pick a color with remaining quota
                 int chosen = chooseNextColor(perColorTargets, perColorAssigned, rng, numberStates);
-                // Initialize occupied sets/maps (spec: do not initialize state 0)
-                initialCells.add(cell);
-                initialStateForCell.put(cell, chosen);
+                // Créer la cellule avec l'état directement
+                Cell occupiedCell = new Cell(x, y, chosen);
+                initialCells.add(occupiedCell);
                 perColorAssigned[chosen]++;
             }
         }
@@ -80,7 +78,6 @@ public class TestSchellingSimulator {
                 cellSize, window, width, height,
                 initialCells,
                 numberStates,
-                initialStateForCell,
                 originVacantHabitation,
                 thresholdK
         );

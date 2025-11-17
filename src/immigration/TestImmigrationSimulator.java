@@ -5,7 +5,6 @@ import core.Cell;
 import gui.GUISimulator;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ public class TestImmigrationSimulator {
         GUISimulator window = new GUISimulator(500, 500, Color.WHITE);
         int nbState = 4;
         Set<Cell> initCells = new HashSet<>();
-        HashMap<Cell, Integer> initialStateForCell = new HashMap<>();
         int baseX = 0, baseY = 0;
         int[][] states = {
                 {3, 0, 1, 1, 0},
@@ -29,14 +27,13 @@ public class TestImmigrationSimulator {
             for (int dx = 0; dx < states[dy].length; dx++) {
                 int s = states[dy][dx];
                 if (s != 0) {
-                    Cell c = new Cell(baseX + dx, baseY + dy);
+                    Cell c = new Cell(baseX + dx, baseY + dy, s);  // État directement dans Cell
                     initCells.add(c);
-                    initialStateForCell.put(c, s); // darkest (3) is highest state; white is 0 and skipped
                 }
             }
         }
 
-        AutomateSimulator simu = new ImmigrationSimulator(50, window, 5, 5, initCells, nbState, initialStateForCell);
+        AutomateSimulator simu = new ImmigrationSimulator(50, window, 5, 5, initCells, nbState);
 
     }
 }

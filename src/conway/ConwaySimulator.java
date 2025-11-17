@@ -3,6 +3,7 @@ package conway;
 import core.AutomateSimulator;
 import core.Cell;
 import gui.GUISimulator;
+import java.awt.Color;
 import java.util.Set;
 
 /**
@@ -27,9 +28,15 @@ public class ConwaySimulator extends AutomateSimulator {
         super(cellSize, gui, new ConwayGrid(nbCellWidth,nbCellHeight, initialCells));
     }
 
-
-
-
-
+    /**
+     * Crée la palette de couleurs pour Conway
+     * Retourne une palette avec une seule couleur (blanc pour vivant)
+     * @param numberStates nombre d'états (toujours 1 pour Conway)
+     * @return tableau contenant une couleur blanche
+     */
+    @Override
+    protected Color[] createPalette(int numberStates) {
+        return new Color[] { Color.BLACK, Color.WHITE };
+    }
 
 }

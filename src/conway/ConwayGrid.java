@@ -20,7 +20,7 @@ public class ConwayGrid extends Grid {
      *
     */
     public ConwayGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCells){
-        super(nbCellWidth, nbCellHeight, initialCells);
+        super(nbCellWidth, nbCellHeight, initialCells, 2);  // Conway: numberStates=2
     }
 
 
@@ -50,7 +50,7 @@ public class ConwayGrid extends Grid {
 
         // on test maintenant les candidats à la vie
         for(Cell c : candidate){
-            int nbNeighborAlive = 3; // on set à 3 et compare à 0 ou 1 pour gagner des cycles
+            int nbNeighborAlive = 3; // on set à 3 et compare à 0
             for (Cell neighbor : getNeighbor(c)){
                 if(isAlive(neighbor)){
                     nbNeighborAlive--;
@@ -58,6 +58,7 @@ public class ConwayGrid extends Grid {
             }
             if (nbNeighborAlive == 0){
                 nextAlive.add(c);
+                c.setState(1); // La cellule devient vivante.
             }
         }
 

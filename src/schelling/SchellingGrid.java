@@ -1,20 +1,17 @@
 package schelling;
 
 import core.Cell;
-import core.MultiStateGrid;
-import utils.ColorUtil;
-
-import java.awt.*;
+import core.Grid;
 import java.util.*;
 
 /**
  * Classe représentant la grille du modèle de Schelling
- * Elle hérite de la classe MultiStateGrid et implémente les règles spécifiques
+ * Elle hérite de la classe Grid et implémente les règles spécifiques
  * du modèle de Schelling pour le déplacement des cellules en fonction de leur voisinage
  * Les règles de transition sont les suivantes:
  * - Si une cellule a plus de 'seuil' voisins d'un état différent, elle déménage dans une habitation vacante aléatoire
  */
-public class SchellingGrid extends MultiStateGrid {
+public class SchellingGrid extends Grid {
 
     private final Set<Cell> originVacantHabitations;
     private final Set<Cell> vacantHabitations;
@@ -26,30 +23,19 @@ public class SchellingGrid extends MultiStateGrid {
 		 * @param nbCellHeight nombre de cellules en hauteur de la grille
 		 * @param initialCell ensemble des cellules initialement occupées
 		 * @param numberStates nombre d'états possibles pour les cellules (couleurs des familles)
-		 * @param initialStateForCell map des cellules initiales avec leur état associé
 		 * @param originVacantHabitations ensemble des cellules initialement vacantes
+		 * @param seuil seuil de dissatisfaction pour le déplacement
 		 */
-    public SchellingGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCell, int numberStates, HashMap<Cell, Integer> initialStateForCell, Set<Cell> originVacantHabitations, int seuil) {
-        super(nbCellWidth, nbCellHeight, initialCell, numberStates, initialStateForCell);
+    public SchellingGrid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCell, int numberStates, Set<Cell> originVacantHabitations, int seuil) {
+        super(nbCellWidth, nbCellHeight, initialCell, numberStates);
         this.seuil = seuil;
         this.originVacantHabitations = new HashSet<>(originVacantHabitations);
-        this.vacantHabitations = new HashSet<>();
-    }
-
-		/**
-		 * Crée une palette de couleurs pastel pour représenter les différents états des cellules
-		 * @param numberStates nombre d'états possibles pour les cellules
-		 * @return un tableau de couleurs représentant la palette
-		 * @see utils.ColorUtil#pastelHSB(int)
-		 */
-    @Override
-    protected Color[] createPalette(int numberStates) {
-        return ColorUtil.pastelHSB(numberStates);
+        this.vacantHabitations = new HashSet<>(originVacantHabitations);
     }
 
 		/**
 		 * Change l'habitation d'une cellule en la déplaçant vers une habitation vacante aléatoire
-		 * met à jour nextStateCell et nextAlive en conséquence
+		 * met à jour l'état de la nouvelle cellule en conséquence
 		 * @param c la cellule à déplacer
 		 * @param currState l'état actuel de la cellule
 		 * @throws IllegalStateException si aucune habitation n'est disponible
@@ -69,11 +55,11 @@ public class SchellingGrid extends MultiStateGrid {
             i++;
         }
         assert(newHabitation != null);
-        nextStateCell.put(newHabitation,currState);
+        newHabitation.setState(currState);
         nextAlive.add(newHabitation);
-        newHabitation.setColor(palette[currState]);
         vacantHabitations.remove(newHabitation);
         vacantHabitations.add(c);
+        c.setState(0); // morte
     }
 
 		/**
@@ -84,24 +70,28 @@ public class SchellingGrid extends MultiStateGrid {
 		 */
     @Override
     public void nextStep(){
+        updateSnapshot();  // Remplit snapshotState avec l'état courant
+        
         for(Cell c : currAlive){
             int nbNeighborDiff = 0;
-            int currState = currStateCell.get(c);
+            int currState = getStateSnapshot(c);
             for (Cell neighbor: getNeighbor(c)){
-                if(currState != currStateCell.getOrDefault(neighbor, 0)){ // si la voisine n'a pas de famille son état est 0
+                if(currState != getStateSnapshot(neighbor)){  // si la voisine n'a pas de famille son état est 0
                     nbNeighborDiff++;
                 }
             }
 
-            if(nbNeighborDiff>seuil){
+            if(nbNeighborDiff > seuil){
                 changeHabitation(c, currState);
-            }else{
-                nextStateCell.put(c,currState);
+            } else {
                 nextAlive.add(c);
             }
         }
 
-        applyNextState();
+        // Basculement des états
+        this.currAlive.clear();
+        this.currAlive.addAll(nextAlive);
+        this.nextAlive.clear();
     }
 
     @Override
@@ -109,6 +99,5 @@ public class SchellingGrid extends MultiStateGrid {
         super.restart();
         this.vacantHabitations.clear();
         this.vacantHabitations.addAll(originVacantHabitations);
-
     }
 }

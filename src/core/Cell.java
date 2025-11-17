@@ -1,30 +1,40 @@
 package core;
 
-import java.awt.*;
 import java.util.Objects;
 
 /**
- * Représente une cellule vivante dans le jeu de la vie de Conway
- * une cellule possede des coordonnées x et y
+ * Représente une cellule vivante dans un automate cellulaire
+ * une cellule possede des coordonnées x et y et un état entier
  * Deux cellules sont égales si elles ont les mêmes coordonnées
- * Le hashcode est basé sur les coordonnées de la cellule. sa couleur peut changer sans affecter le hashcode
+ * Le hashcode est basé sur les coordonnées de la cellule. l'état peut changer sans affecter le hashcode
  */
 public class Cell {
 
     private final int x; // immuable pour ne pas changer les clés des hashset
     private final int y;
-
-    private Color color;
+    private int state;   // état de la cellule (0=mort, 1+=vivant)
 
     /**
-     * Constructeur d'une cellule de couleur blanche par défaut
-     * @param x coordonnée x de la cellule (doit être positive)
-     * @param y coordonnée y de la cellule (doit être positive)
+     * Constructeur d'une cellule avec état par défaut 0
+     * @param x coordonnée x de la cellule
+     * @param y coordonnée y de la cellule
      */
     public Cell(int x, int y){
         this.x = x;
         this.y = y;
-        this.color = Color.WHITE;
+        this.state = 0;
+    }
+
+    /**
+     * Constructeur d'une cellule avec état spécifié
+     * @param x coordonnée x de la cellule
+     * @param y coordonnée y de la cellule
+     * @param state état initial de la cellule
+     */
+    public Cell(int x, int y, int state){
+        this.x = x;
+        this.y = y;
+        this.state = state;
     }
 
     public int getX() {
@@ -35,12 +45,12 @@ public class Cell {
         return y;
     }
 
-    public Color getColor() {
-        return color;
+    public int getState() {
+        return state;
     }
 
-    public void setColor(Color color){
-        this.color = color;
+    public void setState(int state){
+        this.state = state;
     }
 
     /**

@@ -12,28 +12,36 @@ import java.util.*;
 public abstract class Grid {
     private final int nbCellWidth;
     private final int nbCellHeight;
+    protected final int numberStates;  // Nombre d'états possibles (2 (vivant ou mort) pour Conway, N pour Immigration/Schelling)
     protected final Set<Cell> origin;
     protected final Set<Cell> nextAlive;
     protected final Set<Cell> currAlive;
+    protected final HashMap<Cell, Integer> snapshotState;  // Snapshot de l'état courant pour lire pendant nextStep()
 
     /**
-     * Constructeur de la grille de Conway
+     * Constructeur de la grille d'automate cellulaire
      * @param nbCellWidth nombre de cellules en largeur de la grille
      * @param nbCellHeight nombre de cellules en hauteur de la grille
      * @param initialCells ensemble des cellules initialement vivantes
+     * @param numberStates nombre d'états possibles pour les cellules
      * @throws IllegalArgumentException si la largeur ou la hauteur est inférieure ou égale à 0
      *
      */
-    public Grid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCells){
+    public Grid(int nbCellWidth, int nbCellHeight, Set<Cell> initialCells, int numberStates){
         if (nbCellWidth <= 0 || nbCellHeight <= 0) {
             throw new IllegalArgumentException("Width and height must be positive");
         }
+        if (numberStates <= 0) {
+            throw new IllegalArgumentException("numberStates must be positive");
+        }
         this.nbCellWidth = nbCellWidth;
         this.nbCellHeight = nbCellHeight;
+        this.numberStates = numberStates;
         this.origin = new HashSet<>(initialCells);
         this.currAlive = new HashSet<>();
         currAlive.addAll(initialCells); // initialisation
         this.nextAlive = new HashSet<>();
+        this.snapshotState = new HashMap<>();
     }
 
     /**
@@ -90,8 +98,34 @@ public abstract class Grid {
     public void restart(){
         clear();
         this.currAlive.addAll(this.origin);
+        this.snapshotState.clear();
+        for(Cell c : this.origin){
+            this.snapshotState.put(c, c.getState());
+        }
     }
 
+    public int getNumberStates() {
+        return numberStates;
+    }
+
+    /**
+     * Retourne l'état d'une cellule depuis le snapshot (lecture sûre pendant nextStep)
+     * @param c la cellule
+     * @return l'état de la cellule
+     */
+    protected int getStateSnapshot(Cell c) {
+        return snapshotState.getOrDefault(c, 0);
+    }
+
+    /**
+     * Remplit le snapshot au début de nextStep() pour lecture cohérente
+     */
+    protected void updateSnapshot() {
+        snapshotState.clear();
+        for(Cell c : currAlive) {
+            snapshotState.put(c, c.getState());
+        }
+    }
 
 }
 
