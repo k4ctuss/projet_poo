@@ -22,5 +22,21 @@ public final class ColorUtil {
         }
         return palette;
     }
+
+    /**
+     * Pastel variant: lower saturation for softer tones.
+     */
+    public static Color[] pastelHSB(int n) {
+        if (n <= 0) throw new IllegalArgumentException("n must be > 0");
+        Color[] palette = new Color[n];
+        final float sat = 0.35f;
+        final float bri = 0.98f;
+        final float hueOffset = 0.08f;
+        for (int i = 0; i < n; i++) {
+            float h = (n == 1) ? hueOffset : (hueOffset + (float) i / (float) n) % 1.0f;
+            palette[i] = Color.getHSBColor(h, sat, bri);
+        }
+        return palette;
+    }
 }
 

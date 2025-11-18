@@ -3,8 +3,9 @@ package immigration;
 import core.AutomateSimulator;
 import core.Cell;
 import gui.GUISimulator;
+import utils.ColorUtil;
 
-import java.util.HashMap;
+import java.awt.Color;
 import java.util.Set;
 
 /**
@@ -23,11 +24,19 @@ public class ImmigrationSimulator extends AutomateSimulator {
          * @param nbCellWidth nombre de cellules en largeur de la futur grille
          * @param nbCellHeight nombre de cellules en hauteur de la futur grille
          * @param initialCells ensemble des cellules initialement vivantes
-				 * @param numberState nombre d'états possibles pour les cellules
-				 * @param initialStateForCell map des cellules initiales avec leur état associé
+		 * @param numberState nombre d'états possibles pour les cellules
 		 */
-    public ImmigrationSimulator(int cellSize, GUISimulator gui, int nbCellWidth, int nbCellHeight, Set<Cell> initialCells,
-                                int numberState, HashMap<Cell, Integer> initialStateForCell){
-        super(cellSize, gui, new ImmigrationGrid(nbCellWidth, nbCellHeight, initialCells, numberState, initialStateForCell));
+    public ImmigrationSimulator(int cellSize, GUISimulator gui, int nbCellWidth, int nbCellHeight, Set<Cell> initialCells, int numberState){
+        super(cellSize, gui, new ImmigrationGrid(nbCellWidth, nbCellHeight, initialCells, numberState));
+    }
+
+    /**
+     * Crée la palette de couleurs pour Immigration (noir à blanc)
+     * @param numberStates nombre d'états à représenter
+     * @return tableau de couleurs de noir à blanc
+     */
+    @Override
+    protected Color[] createPalette(int numberStates) {
+        return ColorUtil.whiteToBlack(numberStates);
     }
 }
