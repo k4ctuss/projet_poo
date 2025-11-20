@@ -1,7 +1,7 @@
 package conway;
 
 import core.Cell;
-import core.Grid;
+import core.CellGrid;
 import java.util.*;
 
 /**
@@ -10,7 +10,7 @@ import java.util.*;
  * Elle gère également le wrapping des cellules aux bords de la grille
  * Elle permet de redémarrer la grille à son état initial
  */
-public class ConwayGrid extends Grid {
+public class ConwayGrid extends CellGrid {
 
     /** 
      * Constructeur de la grille de Conway, appel le constucteur parent

@@ -1,7 +1,7 @@
 package schelling;
 
 import core.Cell;
-import core.Grid;
+import core.CellGrid;
 import java.util.*;
 
 /**
@@ -11,7 +11,7 @@ import java.util.*;
  * Les règles de transition sont les suivantes:
  * - Si une cellule a plus de 'seuil' voisins d'un état différent, elle déménage dans une habitation vacante aléatoire
  */
-public class SchellingGrid extends Grid {
+public class SchellingGrid extends CellGrid {
 
     private final Set<Cell> originVacantHabitations;
     private final Set<Cell> vacantHabitations;

@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public abstract class AutomateSimulator implements Simulable{
 
-    private final Grid grid;
+    private final CellGrid grid;
     private final GUISimulator gui;
     private final int cellSize;
     protected final Color[] palette;  // Palette de couleurs pour visualisation
@@ -27,7 +27,7 @@ public abstract class AutomateSimulator implements Simulable{
      * @param grid refence un grille de cellules
      * @throws IllegalArgumentException si la taille des cellules est inférieure ou égale à 0
      */
-    public AutomateSimulator(int cellSize, GUISimulator gui, Grid grid){
+    public AutomateSimulator(int cellSize, GUISimulator gui, CellGrid grid){
         if(cellSize <= 0){
             throw new IllegalArgumentException("Cell size must be strictly positive.");
         }
