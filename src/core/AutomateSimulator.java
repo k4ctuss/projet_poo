@@ -19,6 +19,7 @@ public abstract class AutomateSimulator implements Simulable{
     private final GUISimulator gui;
     private final int cellSize;
     protected final Color[] palette;  // Palette de couleurs pour visualisation
+    protected EventManager manager;
 
     /**
      * Constructeur du simulateur d'automate cellulaire
@@ -36,6 +37,8 @@ public abstract class AutomateSimulator implements Simulable{
         this.gui.setSimulable(this);
         this.grid = grid;
         this.palette = createPalette(grid.getNumberStates());
+        this.manager = new EventManager();
+        this.manager.addEvent(new AutomateCellEvent(1, grid, manager));
 
         restart();
     }
@@ -61,14 +64,16 @@ public abstract class AutomateSimulator implements Simulable{
     }
     @Override
     public void next(){
-        grid.nextStep();
-        draw();
+       manager.next();
+       draw();
     }
 
     @Override
     public void restart(){
+        manager.restart();
         grid.restart();
         draw();
+        this.manager.addEvent(new AutomateCellEvent(1, grid, manager));
     }
 
 }

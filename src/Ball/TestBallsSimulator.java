@@ -6,6 +6,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe de test pour le simulateur de balles rebondissantes
+ * Elle initialise une fenêtre graphique et crée un simulateur de balles avec des positions initiales
+ */
 public class TestBallsSimulator {
 
     public static void main(String[] args) {

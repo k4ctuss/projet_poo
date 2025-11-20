@@ -2,6 +2,7 @@ package schelling;
 
 import core.Cell;
 import core.Grid;
+
 import java.util.*;
 
 /**
