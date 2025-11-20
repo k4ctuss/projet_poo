@@ -115,8 +115,9 @@ public class BoidGroup {
     
     /**
      * Règle de séparation : éviter les boids proches du même groupe
-     * Retourne une force (fx, fy)
-     * x''_separation = Σ(normalize(position_self - position_neighbor) / distance)
+     * @param boid le boid dont on calcule la force de séparation
+     * @param neighbors liste des voisins du même groupe
+     * @return une force (fx, fy)
      */
     protected double[] ruleSeparation(Boid boid, List<Boid> neighbors) {
         double fx = 0, fy = 0;
@@ -144,7 +145,9 @@ public class BoidGroup {
     
     /**
      * Règle d'alignement : aller dans la même direction que les voisins
-     * x''_alignment = average(velocity_neighbors) - velocity_self
+     * @param boid le boid dont on calcule la force d'alignement
+     * @param neighbors liste des voisins du même groupe
+     * @return une force (fx, fy)
      */
     protected double[] ruleAlignment(Boid boid, List<Boid> neighbors) {
         if(neighbors.isEmpty()) return new double[]{0, 0};
@@ -162,7 +165,9 @@ public class BoidGroup {
     
     /**
      * Règle de cohésion : aller vers le centre du groupe
-     * x''_cohesion = center_mass - position_self
+     * @param boid le boid dont on calcule la force de cohésion
+     * @param neighbors liste des voisins du même groupe
+     * @return une force (fx, fy)
      */
     protected double[] ruleCohesion(Boid boid, List<Boid> neighbors) {
         if(neighbors.isEmpty()) return new double[]{0, 0};
@@ -213,6 +218,12 @@ public class BoidGroup {
         // Vide par défaut car pas d'interaction à surcharger dans les sous-classes
     }
 
+    /**
+     * Retourne le boid le plus proche parmi une liste donnée
+     * @param ref le boid de référence
+     * @param boids liste des boids candidats
+     * @return le boid le plus proche
+     */
     protected Boid getClosest(Boid ref, List<Boid> boids){
         Boid closest = boids.get(0);
         double closestDist = ref.distanceTo(closest);
