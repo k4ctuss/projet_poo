@@ -1,7 +1,6 @@
 package immigration;
 
 import core.Cell;
-import core.CellGrid;
 import core.Grid;
 import utils.ColorUtil;
 
@@ -17,7 +16,7 @@ import java.util.*;
  * La grille gère également le wrapping des cellules aux bords de la grille
  * Elle permet de redémarrer la grille à son état initial
  */
-public class ImmigrationGrid extends CellGrid {
+public class ImmigrationGrid extends Grid {
 
     /**
      * Constructeur de la grille de l'immigration, appel le constucteur parent
