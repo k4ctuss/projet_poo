@@ -2,6 +2,10 @@ package core;
 
 import java.util.PriorityQueue;
 
+/**
+ * Représente un gestionnaire d'événements qui orchestre l'exécution des événements planifiés
+ * Il maintient une file de priorité d'événements et gère la progression du temps
+ */
 public class EventManager {
     private long currentDate;
     private PriorityQueue<Event> events;

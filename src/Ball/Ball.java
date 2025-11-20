@@ -2,6 +2,12 @@ package Ball;
 
 import java.awt.*;
 
+/**
+ * Classe représentant une balle rebondissant dans une fenêtre
+ * Elle a une position (x, y) et une vitesse (vx, vy)
+ * La méthode update permet de mettre à jour la position en fonction de la vitesse
+ * et de gérer les rebonds contre les bords de la fenêtre
+ */
 public class Ball {
 
     // coordonnée de la balle
@@ -12,14 +18,28 @@ public class Ball {
     // vitesse horizontale
     private int vy = 10;
 
+    /**
+     * Constructeur d'une balle à une position donnée
+     * @param other balle à copier
+     */
     public Ball(Ball other){
         this(other.x, other.y);
         this.vx = other.vx;
         this.vy = other.vy;
     }
+    /**
+     * Constructeur d'une balle à une position donnée
+     * @param point position initiale de la balle
+     */
     public Ball(Point point){
         this(point.x, point.y);
     }
+
+    /**
+     * Constructeur d'une balle à une position donnée
+     * @param x position x initiale
+     * @param y position y initiale
+     */
     public Ball(int x, int y){
         this.x = x;
         this.y = y;
@@ -33,6 +53,13 @@ public class Ball {
         return y;
     }
 
+    /**
+     * Met à jour la position de la balle en fonction de sa vitesse
+     * et gère les rebonds contre les bords de la fenêtre
+     * @param width largeur de la fenêtre
+     * @param height hauteur de la fenêtre
+     * @param radius rayon de la balle
+     */
     public void update(int width, int height, int radius){
         int nextX = x+vx, nextY = y+vy;
 
@@ -58,6 +85,10 @@ public class Ball {
         y = nextY;
     }
 
+    /**
+     * Réinitialise la balle à l'état d'une autre balle
+     * @param other balle dont on copie l'état
+     */
     public void reset(Ball other){
         x = other.x;
         y = other.y;
