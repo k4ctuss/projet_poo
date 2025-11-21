@@ -17,6 +17,8 @@ compile:
 # Tests des automates cellulaires
 testConway: compile
 	$(JAVA) -classpath $(CLASSPATH) conway.TestConwaySimulator
+testConwayGlider: compile
+	$(JAVA) -classpath $(CLASSPATH) conway.TestConwayGlider
 
 testImmigration: compile
 	$(JAVA) -classpath $(CLASSPATH) immigration.TestImmigrationSimulator
@@ -56,6 +58,7 @@ help:
 	@echo "Cibles disponibles:"
 	@echo "  make compile              - Compile tous les fichiers"
 	@echo "  make testConway           - Lance le test Conway"
+	@echo "  make testConwayGlider     - Lance le test Conway avec gun de planeurs"
 	@echo "  make testImmigration      - Lance le test Immigration (petit)"
 	@echo "  make testImmigrationBig   - Lance le test Immigration (80x80, aléatoire)"
 	@echo "  make testSchelling        - Lance le test Schelling"
