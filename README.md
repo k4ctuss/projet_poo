@@ -29,7 +29,8 @@ projet_poo/
 │   ├── immigration/             # Implémentation du Jeu d'Immigration
 │   │   ├── ImmigrationGrid.java # Grille du Jeu d'Immigration
 │   │   ├── ImmigrationSimulator.java # Simulateur du Jeu d'Immigration
-│   │   └── TestImmigrationSimulator.java # Test avec GUI
+│   │   ├── TestImmigrationSimulator.java # Test avec GUI (petit)
+│   │   └── TestImmigrationBig.java # Test avec GUI (80x80, aléatoire)
 │   ├── schelling/               # Implémentation du Modèle de Schelling
 │   │   ├── SchellingGrid.java   # Grille du Modèle de Schelling
 │   │   ├── SchellingSimulator.java # Simulateur du Modèle de Schelling
@@ -66,7 +67,8 @@ make compile
 
 # Lancer les tests des automates cellulaires
 make testConway           # Jeu de la Vie
-make testImmigration      # Jeu d'Immigration
+make testImmigration      # Jeu d'Immigration (petit)
+make testImmigrationBig   # Jeu d'Immigration (80x80, aléatoire)
 make testSchelling        # Modèle de Schelling
 
 # Lancer les tests des boids

@@ -21,6 +21,9 @@ testConway: compile
 testImmigration: compile
 	$(JAVA) -classpath $(CLASSPATH) immigration.TestImmigrationSimulator
 
+testImmigrationBig: compile
+	$(JAVA) -classpath $(CLASSPATH) immigration.TestImmigrationBig
+
 testSchelling: compile
 	$(JAVA) -classpath $(CLASSPATH) schelling.TestSchellingSimulator
 
@@ -42,7 +45,7 @@ testBallsUpdated: compile
 	$(JAVA) -classpath $(CLASSPATH) Ball.TestBalls
 
 # Lancer tous les tests (avec pause entre chacun)
-testAll: testConway testImmigration testSchelling testBoidSimple testBoidMultiGroup testBoidPreyPredator testBalls
+testAll: testConway testImmigration testImmigrationBig testSchelling testBoidSimple testBoidMultiGroup testBoidPreyPredator testBalls
 
 # Nettoyage
 clean:
@@ -53,7 +56,8 @@ help:
 	@echo "Cibles disponibles:"
 	@echo "  make compile              - Compile tous les fichiers"
 	@echo "  make testConway           - Lance le test Conway"
-	@echo "  make testImmigration      - Lance le test Immigration"
+	@echo "  make testImmigration      - Lance le test Immigration (petit)"
+	@echo "  make testImmigrationBig   - Lance le test Immigration (80x80, aléatoire)"
 	@echo "  make testSchelling        - Lance le test Schelling"
 	@echo "  make testBoidSimple       - Lance le test Boid simple"
 	@echo "  make testBoidMultiGroup   - Lance le test Boid multi-groupe"
@@ -63,4 +67,4 @@ help:
 	@echo "  make clean                - Supprime les fichiers compilés"
 	@echo "  make help                 - Affiche cette aide"
 
-.PHONY: all compile testConway testImmigration testSchelling testBoidSimple testBoidMultiGroup testBoidPreyPredator testBalls testAll clean help
+.PHONY: all compile testConway testImmigration testImmigrationBig testSchelling testBoidSimple testBoidMultiGroup testBoidPreyPredator testBalls testAll clean help
