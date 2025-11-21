@@ -1,5 +1,7 @@
 .idea
 
+bin
+out
 # Compiled class file
 *.class
 

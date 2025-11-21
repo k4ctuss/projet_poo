@@ -30,6 +30,8 @@ public class BoidSimulator implements Simulable {
         this.eventManager = new EventManager();
         this.groupFrequencies = new HashMap<>();
         this.gui.setSimulable(this);
+
+        draw();
     }
 
     /**
@@ -93,9 +95,5 @@ public class BoidSimulator implements Simulable {
                 ));
             }
         }
-    }
-
-    public long getDelay(BoidGroup group){
-        return this.groupFrequencies.getOrDefault(group, 1L);
     }
 }
