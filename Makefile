@@ -17,6 +17,7 @@ compile:
 # Tests des automates cellulaires
 testConway: compile
 	$(JAVA) -classpath $(CLASSPATH) conway.TestConwaySimulator
+	$(JAVA) -classpath $(CLASSPATH) conway.TestConwayGlider
 
 testImmigration: compile
 	$(JAVA) -classpath $(CLASSPATH) immigration.TestImmigrationSimulator
