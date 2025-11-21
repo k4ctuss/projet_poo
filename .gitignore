@@ -2,6 +2,7 @@
 
 bin
 out
+hide
 # Compiled class file
 *.class
 
