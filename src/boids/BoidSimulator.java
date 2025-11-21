@@ -1,6 +1,7 @@
 package boids;
 
 import core.EventManager;
+import core.StepEvent;
 import gui.GUISimulator;
 import gui.Oval;
 import gui.Simulable;
@@ -40,7 +41,7 @@ public class BoidSimulator implements Simulable {
         groups.add(group);
         groupFrequencies.put(group, frequency);
         // Créer l'événement initial du groupe
-        eventManager.addEvent(new BoidUpdateEvent(0, group, eventManager, this));
+        eventManager.addEvent(new StepEvent(0, group, eventManager, frequency));
     }
 
     /**
@@ -60,6 +61,7 @@ public class BoidSimulator implements Simulable {
     @Override
     public void next(){
         eventManager.next();
+        draw();
     }
 
     /**
@@ -73,7 +75,7 @@ public class BoidSimulator implements Simulable {
             group.restart();
             // Recréer l'événement initial du groupe
             long freq = groupFrequencies.getOrDefault(group, 1L);
-            eventManager.addEvent(new BoidUpdateEvent(0, group, eventManager, this));
+            eventManager.addEvent(new StepEvent(0, group, eventManager, freq));
         }
         draw();
     }

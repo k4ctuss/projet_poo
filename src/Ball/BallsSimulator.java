@@ -1,6 +1,7 @@
 package Ball;
 
 import core.EventManager;
+import core.StepEvent;
 import gui.GUISimulator;
 import gui.Oval;
 import gui.Simulable;
@@ -38,21 +39,22 @@ public class BallsSimulator implements Simulable {
         this.balles = new Balls(seed, gui.getPanelWidth(), gui.getPanelHeight(), ballRadius);
         this.gui.setSimulable(this);
         this.eventManager = new EventManager();
-        eventManager.addEvent(new BallEvent(1, balles, eventManager));
+        eventManager.addEvent(new StepEvent(1, balles, eventManager, 1));
         draw();
     }
+
     @Override
     public void next(){
-        this.balles.step();
+        eventManager.next();
         draw();
     }
 
     @Override
     public void restart(){
         eventManager.restart();
-        this.balles.reInit();
+        this.balles.restart();
         draw();
-        eventManager.addEvent(new BallEvent(1, balles, eventManager));
+        eventManager.addEvent(new StepEvent(1, balles, eventManager, 1));
     }
 
     private void draw(){

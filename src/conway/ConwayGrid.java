@@ -31,7 +31,7 @@ public class ConwayGrid extends Grid {
      * 
      */
     @Override
-    public void nextStep(){
+    public void step(){
         buildSnapshot();
         Set<Cell> candidate = new HashSet<>();
         // pour chaque cellule on regard si elle sera encore en vie a t+1 et on met ses voisins morts en candidats

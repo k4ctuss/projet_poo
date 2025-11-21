@@ -38,7 +38,7 @@ public abstract class AutomateSimulator implements Simulable{
         this.grid = grid;
         this.palette = createPalette(grid.getNumberStates());
         this.manager = new EventManager();
-        this.manager.addEvent(new AutomateCellEvent(1, grid, manager));
+        this.manager.addEvent(new StepEvent(0, grid, manager, 1));
 
         restart();
     }
@@ -73,7 +73,7 @@ public abstract class AutomateSimulator implements Simulable{
         manager.restart();
         grid.restart();
         draw();
-        this.manager.addEvent(new AutomateCellEvent(1, grid, manager));
+        this.manager.addEvent(new StepEvent(0, grid, manager, 1));
     }
 
 }

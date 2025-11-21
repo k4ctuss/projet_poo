@@ -1,5 +1,6 @@
 package Ball;
 
+import core.Stepable;
 import java.util.*;
 import java.awt.Point;
 import java.util.stream.Collectors;
@@ -8,9 +9,9 @@ import java.util.stream.Collectors;
  * Classe représentant une collection de balles rebondissant dans une fenêtre
  * Elle gère une liste de balles initiales et courantes
  * La méthode step met à jour la position de toutes les balles
- * La méthode reInit réinitialise toutes les balles à leur état initial
+ * La méthode restart réinitialise toutes les balles à leur état initial
  */
-public class Balls {
+public class Balls implements Stepable {
 
     private final List<Ball> initials;
     private final List<Ball> currents;
@@ -49,12 +50,15 @@ public class Balls {
     /**
      * Met à jour la position de toutes les balles
      */
+    @Override
     public void step(){
         for(Ball b: currents){
             b.update(width, height, ballRadius);
         }
     }
-    public void reInit(){
+    
+    @Override
+    public void restart(){
         for(int i = 0; i < currents.size(); i++){
             currents.get(i).reset(initials.get(i));
         }

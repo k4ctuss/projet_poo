@@ -38,7 +38,7 @@ public class ImmigrationGrid extends Grid {
 		 * Si une cellule morte a au moins 3 voisins dans l'état 1, elle devient vivante dans cet état
 		 */
     @Override
-    public void nextStep(){
+    public void step(){
         buildSnapshot();  // Crée le snapshot une fois au début
         
         Set<Cell> candidates = new HashSet<>();

@@ -33,9 +33,9 @@ public class BoidPreyPredatorTest {
             3.0 * Math.PI / 2.0,       // viewAngle (270 degrés)
             1.0,                       // separationWeight (réduit - moins important que la fuite)
             0.6,                       // alignmentWeight (réduit - fuite prioritaire)
-            0.8,                       // cohesionWeight (réduit aussi - fuite prioritaire)
+            0.5,                       // cohesionWeight (réduit aussi - fuite prioritaire)
             7,                       // maxSpeed (un peu plus rapides)
-            0.22,                      // maxForce (augmenté pour des réactions plus vives)
+            0.3,                      // maxForce (augmenté pour des réactions plus vives)
             Color.BLUE                 // color
         );
         PreyGroup preyGroup = new PreyGroup(preyConfig, width, height);
@@ -46,11 +46,11 @@ public class BoidPreyPredatorTest {
         BoidGroupConfig predatorConfig = new BoidGroupConfig(
             130.0,                     // perceptionRadius (plus grand pour détecter proies)
             3.0 * Math.PI / 2.0,       // viewAngle (270 degrés)
-            0.8,                       // separationWeight (faible - chasseur)
+            0.7,                       // separationWeight (faible - chasseur)
             0.4,                       // alignmentWeight (très faible - chasseur indépendant)
-            0.3,                       // cohesionWeight (très faible - chasseurs solitaires)
+            0.1,                       // cohesionWeight (très faible - chasseurs solitaires)
             6.0,                       // maxSpeed (un peu plus rapides)
-            0.20,                      // maxForce (augmenté pour des réactions plus vives)
+            0.3,                      // maxForce (augmenté pour des réactions plus vives)
             Color.RED                  // color
         );
         PredatorGroup predatorGroup = new PredatorGroup(predatorConfig, width, height);

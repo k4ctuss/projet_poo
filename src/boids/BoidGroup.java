@@ -1,5 +1,6 @@
 package boids;
 
+import core.Stepable;
 import java.util.*;
 
 /**
@@ -7,7 +8,7 @@ import java.util.*;
  * Les interactions intra-groupe sont gérées ici
  * Les interactions inter-groupes (prédateurs/proies) sont gérées dans les sous-classes
  */
-public class BoidGroup {
+public class BoidGroup implements Stepable {
     protected List<Boid> boids;
     protected List<Boid> boidsOrigin;  // Copie des boids initiaux pour restart()
     protected BoidGroupConfig config;
@@ -252,10 +253,17 @@ public class BoidGroup {
         }
     }
     
+    @Override
+    public void step() {
+        applyRules();
+        update();
+    }
+    
     /**
      * Réinitialise le groupe à son état initial
      * Recopie les boids initiaux sauvegardés
      */
+    @Override
     public void restart() {
         boids.clear();
         for(Boid original : boidsOrigin) {

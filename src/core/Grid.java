@@ -9,7 +9,7 @@ import java.util.*;
  * Elle gère également le wrapping des cellules aux bords de la grille
  * Elle permet de redémarrer la grille à son état initial
  */
-public abstract class Grid {
+public abstract class Grid implements Stepable {
     private final int nbCellWidth;
     private final int nbCellHeight;
     protected final int numberStates;  // Nombre d'états possibles (2 (vivant ou mort) pour Conway, N pour Immigration/Schelling)
@@ -78,16 +78,12 @@ public abstract class Grid {
         };
     }
 
-    /**
-     * Passe à l'étape suivante de la simulation en appliquant les règles du jeu de l'automate simulé
-     */
-    public abstract void nextStep();
-
     protected void clear(){
         this.currAlive.clear();
         this.snapshotState.clear();
     }
 
+    @Override
     public void restart(){
         clear();
         for(Cell c : this.origin){
@@ -120,6 +116,12 @@ public abstract class Grid {
             snapshotState.put(c, c.getState());
         }
     }
-
+    /**
+     * Calcule l'étape suivante de la simulation
+     * À implémenter dans les sous-classes (Conway, Immigration, Schelling)
+     */
+    @Override
+    public abstract void step();
 }
+
 

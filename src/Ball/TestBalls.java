@@ -27,7 +27,7 @@ public class TestBalls {
         balls.step();
         System.out.println("Etat après translation : \n "+balls.toString());
         System.out.println("---- Réinit -----");
-        balls.reInit();
+        balls.restart();
         System.out.println("Etat apres reinit : \n "+balls.toString());
 
     }

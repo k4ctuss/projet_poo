@@ -2,7 +2,6 @@ package conway;
 
 import core.AutomateSimulator;
 import core.Cell;
-import core.AutomateCellEvent;
 import gui.GUISimulator;
 import java.awt.Color;
 import java.util.Set;

@@ -59,7 +59,7 @@ public class SchellingGrid extends Grid {
 		 * Sinon, elle conserve son état actuel
 		 */
     @Override
-    public void nextStep(){
+    public void step(){
         buildSnapshot();  // Crée le snapshot une fois au début
         
         // Listes des mouvements à effectuer après l'itération
